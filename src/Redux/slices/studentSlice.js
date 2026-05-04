@@ -3,7 +3,24 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-    students: []
+    students: [
+        {
+            name: "John Doe",
+            fName: "Richard Roe",
+            class: "10th Grade",
+            contact: "123-456-7890",
+            city: "New York",
+            id: 10010125524,
+        },
+        {
+            name: "Jhon Smith",
+            fName: "Michael Smith",
+            class: "1st Grade",
+            contact: "123-456-7890",
+            city: "Los Angeles",
+            id: 1001012555664,
+        }
+    ]
 }
 
 const studentSlice = createSlice({
@@ -15,6 +32,9 @@ const studentSlice = createSlice({
             // state.students.push(...state.students, action.payload)
             state.students = [...state.students, action.payload]
             // console.log(state.students)
+            console.log([...state.students])
+            console.log(action.payload)
+
             // console.log([...state.students])
 
         },

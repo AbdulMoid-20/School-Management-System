@@ -1,16 +1,20 @@
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { deleteStudent } from "../Redux/slices/studentSlice";
+import { useState } from "react";
+import Toast from "../components/Toast";
 
 const StudentList = () => {
 
+    const [toast, setToast] = useState(null);
     const students = useSelector((state) => state.students.students);
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
     const handleDelete = (id) => {
         dispatch(deleteStudent(id));
-    };
+        setToast({ message: "Student deleted successfully!", type: "success" });
+    }
 
     return (
         <div className="p-6">
@@ -18,13 +22,13 @@ const StudentList = () => {
             {/* HEADER */}
             <div className="flex justify-between items-center mb-6">
 
+                {toast && <Toast message={toast.message} type={toast.type} />}
+
                 {/* LEFT SIDE (icon + title grouped) */}
                 <div className="flex items-center gap-3">
 
                     <div className="w-10 h-10 rounded-xl bg-violet-600 flex items-center justify-center shadow-md">
-                        <svg xmlns="http://www.w3.org/2000/svg"
-                            className="size-5 text-white"
-                            fill="none" stroke="currentColor" strokeWidth="2">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke="currentColor" fill="none" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={`size-5 text-white`}>
                             <path d="M17 21v-2a4 4 0 0 0-3-3.87" />
                             <path d="M7 21v-2a4 4 0 0 1 3-3.87" />
                             <circle cx="12" cy="7" r="4" />
@@ -45,7 +49,7 @@ const StudentList = () => {
                     onClick={() => navigate("/addstudent")}
                     className="px-4 py-2 rounded-full hover:scale-105 transition-all bg-gradient-to-r from-violet-500 to-purple-500 text-white text-sm font-medium shadow-md hover:opacity-90 transition"
                 >
-                   + Add New Student
+                    + Add New Student
                 </button>
 
             </div>
@@ -63,6 +67,7 @@ const StudentList = () => {
                             </th>
                             <th>Name</th>
                             <th>Father Name</th>
+                            <th>Class</th>
                             <th>Contact</th>
                             <th>Actions</th>
                         </tr>
@@ -73,8 +78,8 @@ const StudentList = () => {
 
                         {students.length === 0 ? (
                             <tr>
-                                <td colSpan="5" className="text-center py-6">
-                                    No students found
+                                <td colSpan="6" className="text-center py-6 font-semibold ">
+                                    No Students Found
                                 </td>
                             </tr>
                         ) : (
@@ -113,11 +118,10 @@ const StudentList = () => {
                                     {/* FATHER NAME + CLASS */}
                                     <td>
                                         {student.fName}
-                                        <br />
-                                        <span className="badge bg-violet-100 text-violet-600 border-0 text-xs">
-                                            Class {student.class}
-                                        </span>
                                     </td>
+
+                                    {/* CLASS */}
+                                    <td>{student.class}</td>
 
                                     {/* CONTACT */}
                                     <td>{student.contact}</td>
@@ -130,7 +134,7 @@ const StudentList = () => {
                                             className="btn btn-sm bg-blue-500 text-white hover:bg-blue-600"
                                             onClick={() => alert("Edit feature coming next")}
                                         >
-                                            Edit
+                                            <i className='bx bx-edit'></i> Edit
                                         </button>
 
                                         {/* DELETE */}
@@ -138,7 +142,7 @@ const StudentList = () => {
                                             className="btn btn-sm bg-red-500 text-white hover:bg-red-600"
                                             onClick={() => handleDelete(student.id)}
                                         >
-                                            Delete
+                                            <i className='bx bx-trash'></i> Delete
                                         </button>
 
                                     </td>
@@ -148,17 +152,6 @@ const StudentList = () => {
                         )}
 
                     </tbody>
-
-                    {/* FOOT
-                    <tfoot className="text-violet-500 text-xs">
-                        <tr>
-                            <th></th>
-                            <th>Name</th>
-                            <th>Father Name</th>
-                            <th>Contact</th>
-                            <th></th>
-                        </tr>
-                    </tfoot> */}
 
                 </table>
             </div>

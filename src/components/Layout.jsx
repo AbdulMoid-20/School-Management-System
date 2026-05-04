@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Outlet, useNavigate, useLocation } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../Redux/slices/authSlice";
 
 const Layout = () => {
@@ -10,7 +10,7 @@ const Layout = () => {
     const navigate = useNavigate();
     const location = useLocation();
     const dispatch = useDispatch();
-
+    const authState = useSelector((state) => state.auth);
     const handleNavigate = (path) => {
         navigate(path);
 
@@ -26,6 +26,7 @@ const Layout = () => {
         navigate("/login", {
             state: { message: "Logged out successfully", type: "error" },
         });
+
     };
 
     const isActive = (path) => location.pathname.includes(path);
@@ -260,8 +261,8 @@ const Layout = () => {
                     </ul>
                 </aside>
 
-                <main className="flex min-w-0 flex-1 flex-col h-dvh">
-                    <nav className="navbar w-full shrink-0 bg-white border-b border-violet-200 px-3 sm:px-6 min-h-16 h-auto gap-2">
+                <main className="flex min-w-0 flex-1 flex-col h-dvh ">
+                    <nav className="navbar w-full shrink-0 bg-white border-b border-violet-200 px-3 sm:px-6 min-h-16 h-auto gap-2 py-4.5">
                         <div className="flex min-w-0 flex-1 items-center gap-2 sm:gap-4">
                             <button
                                 type="button"
@@ -276,7 +277,7 @@ const Layout = () => {
                             </button>
 
                             <h1 className="min-w-0 truncate text-sm sm:text-lg font-semibold leading-tight">
-                                Good morning, <span className="font-bold">Principal Ahmed</span>
+                                Good morning, <span className="font-bold">{authState.role}</span>
                             </h1>
                         </div>
 

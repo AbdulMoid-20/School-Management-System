@@ -13,5 +13,5 @@ export {
     AddStudent,
     AddTeacher,
     TeacherstList,
-    StudentList
+    StudentList,
 }

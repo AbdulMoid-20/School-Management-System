@@ -1,11 +1,14 @@
 import { useRef , useState, useEffect} from "react";
 import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import Toast from "../components/Toast";
+import { addTeacher } from "../Redux/slices/teacherSlice"
 
 const AddTeacher = () => {
     const [toast, setToast] = useState(null);
     const [isSubmitting, setIsSubmitting] = useState(false);
     const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     const nameRef = useRef();
     const genderRef = useRef();
@@ -62,41 +65,65 @@ const AddTeacher = () => {
     const labelClass = "text-violet-700 font-medium text-sm mb-1 block";
 
     const addTeacherHandler = () => {
-        // 🔹 VALIDATION
-        if (
-            !nameRef.current.value ||
-            !genderRef.current.value ||
-            !dobRef.current.value ||
-            !cityRef.current.value ||
-            !emailRef.current.value ||
-            !contactRef.current.value ||
-            !subjectRef.current.value ||
-            !addressRef.current.value ||
-            !cnicRef.current.value ||
-            !qualRef.current.value
-        ) {
-            setToast({ type: "error", message: "Please fill in all required fields." });
-            return;
-        }
-
-        // 🔹 DISPATCH ACTION
-        dispatch({
-            type: "ADD_TEACHER",
-            payload: {
+    
+            // 🔹 VALIDATION
+            if (
+                !nameRef.current.value ||
+                !genderRef.current.value ||
+                !dobRef.current.value ||
+                !cityRef.current.value ||
+                !emailRef.current.value ||
+                !contactRef.current.value ||
+                !subjectRef.current.value ||
+                !addressRef.current.value ||
+                !cnicRef.current.value ||
+                !qualRef.current.value
+            ) {
+                setToast({ message: "Please fill all required fields!", type: "error" });
+                return;
+            }
+    
+            setIsSubmitting(true);
+    
+            const teacherData = {
+                id: Date.now(),
                 name: nameRef.current.value,
                 gender: genderRef.current.value,
                 dob: dobRef.current.value,
-                city: cityRef.current.value,
                 email: emailRef.current.value,
                 contact: contactRef.current.value,
+                city: cityRef.current.value,
                 subject: subjectRef.current.value,
                 address: addressRef.current.value,
                 cnic: cnicRef.current.value,
                 qualification: qualRef.current.value,
-                profileImage: profileImageRef.current.files[0],
-            },
-        });
-    };
+                picture: profileImageRef.current.files[0]
+            };
+    
+            dispatch(addTeacher(teacherData));
+    
+            // ✅ SUCCESS TOAST
+            setToast({ message: "Teacher added successfully!", type: "success" });
+    
+            // ✅ CLEAR FORM
+            nameRef.current.value = "";
+            genderRef.current.value = "";
+            dobRef.current.value = "";
+            emailRef.current.value = "";
+            contactRef.current.value = "";
+            cityRef.current.value = "";
+            subjectRef.current.value = "";
+            addressRef.current.value = "";
+            cnicRef.current.value = "";
+            qualRef.current.value = "";
+            profileImageRef.current.value = null;
+    
+            // simulate delay (optional UX)
+            setTimeout(() => {
+                setIsSubmitting(false);
+            }, 500);
+        };
+    
     useEffect(() => {
             if (toast) {
                 const timer = setTimeout(() => {
@@ -115,12 +142,13 @@ const AddTeacher = () => {
             {/* HEADER (MATCHED) */}
             <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-6">
 
+                {/* LEFT */}
                 <div className="flex items-center gap-3">
+
                     <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-violet-600 flex items-center justify-center shadow-md">
-                        <svg xmlns="http://www.w3.org/2000/svg"
-                            className="size-4 sm:size-5 text-white"
-                            fill="none" stroke="currentColor" strokeWidth="2">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke="currentColor" fill="none" strokeWidth="2" className={`size-5 text-white`}>
                             <circle cx="12" cy="7" r="4" />
+                            <path d="M5.5 21a6.5 6.5 0 0 1 13 0" />
                         </svg>
                     </div>
 
@@ -130,7 +158,18 @@ const AddTeacher = () => {
                             Prestige Academy
                         </p>
                     </div>
+
                 </div>
+
+                {/* BUTTON */}
+                <button
+                    onClick={() => navigate("/teachers")}
+                    className="w-full sm:w-auto px-4 py-2 rounded-full 
+            bg-gradient-to-r from-violet-500 to-purple-500 
+            text-white text-sm font-medium shadow-md hover:scale-105 transition-all"
+                >
+                    Teacher List
+                </button>
 
             </div>
 

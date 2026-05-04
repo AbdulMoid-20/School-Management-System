@@ -1,7 +1,7 @@
 import { useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { addStudent } from "../Redux/slices/studentSlice";
+import { addStudent, deleteStudent } from "../Redux/slices/studentSlice";
 import Toast from "../components/Toast";
 import { useState, useEffect } from "react";
 
@@ -131,9 +131,9 @@ const AddStudent = () => {
                 <div className="flex items-center gap-3">
 
                     <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-violet-600 flex items-center justify-center shadow-md">
-                        <svg xmlns="http://www.w3.org/2000/svg"
-                            className="size-4 sm:size-5 text-white"
-                            fill="none" stroke="currentColor" strokeWidth="2">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke="currentColor" fill="none" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={`size-5 text-white`}>
+                            <path d="M17 21v-2a4 4 0 0 0-3-3.87" />
+                            <path d="M7 21v-2a4 4 0 0 1 3-3.87" />
                             <circle cx="12" cy="7" r="4" />
                         </svg>
                     </div>
@@ -202,6 +202,7 @@ const AddStudent = () => {
                     <div>
                         <label className={labelClass}>Class</label>
                         <select ref={classRef} className={selectClass}>
+                            <option value="">Select Class</option>
                             {classes.map((c, i) => <option key={i}>{c}</option>)}
                         </select>
                     </div>
@@ -209,6 +210,7 @@ const AddStudent = () => {
                     <div>
                         <label className={labelClass}>City</label>
                         <select ref={cityRef} className={selectClass}>
+                            <option value="">Select City</option>
                             {cities.map((c, i) => <option key={i}>{c}</option>)}
                         </select>
                     </div>

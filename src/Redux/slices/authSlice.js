@@ -3,9 +3,12 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const users = [
-    { email: 'admin@gmail.com', password: "admin@1234", role: 'admin' },
-    { email: 'teacher@gmail.com', password: "teacher@1234", role: 'teacher' },
-    { email: 'student@gmail.com', password: "student@1234", role: 'student' }
+    { email: 'admin@gmail.com', password: "admin@1234", role: 'Admin' },
+    { email: 'teacher@gmail.com', password: "teacher@1234", role: 'Teacher' },
+    { email: 'student@gmail.com', password: "student@1234", role: 'Student' },
+    { email: 'developer@gmail.com', password: "developer@1234", role: 'Developer' },
+    { email: 'visitor@gmail.com', password: "visitor@1234", role: 'Visitor' },
+
 ]
 
 const initialState = {
@@ -21,7 +24,6 @@ const authSlice = createSlice({
     reducers: {
         login: (state, action) => {
             const { email, password } = action.payload;
-            console.log(action.payload)
             state.error = '' 
 
             const userFound = users.find(
