@@ -4,7 +4,8 @@ import { useDispatch } from "react-redux";
 import { logout } from "../Redux/slices/authSlice";
 
 const Layout = () => {
-    const [sidebarOpen, setSidebarOpen] = useState(true);
+    const [sidebarOpen, setSidebarOpen] = useState(false);
+    const [showNewRecordModal, setShowNewRecordModal] = useState(false);
 
     const navigate = useNavigate();
     const location = useLocation();
@@ -29,6 +30,15 @@ const Layout = () => {
 
     const isActive = (path) => location.pathname.includes(path);
 
+    const handleAddNewRecord = (type) => {
+        setShowNewRecordModal(false);
+        if (type === 'student') {
+            navigate('/students/add');
+        } else if (type === 'teacher') {
+            navigate('/teachers/add');
+        }
+    };
+
     return (
         <div className="h-dvh overflow-hidden bg-[#F5F3FF] text-violet-900 relative">
             <div className="absolute inset-0 -z-10 pointer-events-none overflow-hidden">
@@ -36,6 +46,77 @@ const Layout = () => {
                 <div className="absolute w-[260px] sm:w-[400px] h-[260px] sm:h-[400px] bg-amber-100/80 blur-[90px] sm:blur-[120px] rounded-full bottom-[-100px] right-[-120px]" />
                 <div className="absolute w-[220px] sm:w-[300px] h-[220px] sm:h-[300px] bg-purple-100/60 blur-[80px] sm:blur-[100px] rounded-full top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" />
             </div>
+
+            {/* NEW RECORD MODAL */}
+            {showNewRecordModal && (
+                <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/40 backdrop-blur-sm p-4" onClick={() => setShowNewRecordModal(false)}>
+                    <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md p-6 border border-violet-100" onClick={(e) => e.stopPropagation()}>
+
+                        {/* Header */}
+                        <div className="flex items-center justify-between mb-6">
+                            <div>
+                                <h3 className="text-xl font-bold text-violet-900">Add New Record</h3>
+                                <p className="text-sm text-violet-500 mt-1">Choose what you want to add</p>
+                            </div>
+                            <button
+                                onClick={() => setShowNewRecordModal(false)}
+                                className="btn btn-sm btn-circle btn-ghost text-violet-400 hover:bg-violet-100"
+                            >
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-5 h-5">
+                                    <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                                </svg>
+                            </button>
+                        </div>
+
+                        {/* Options */}
+                        <div className="space-y-3">
+
+                            {/* Add Student */}
+                            <button
+                                onClick={() => handleAddNewRecord('student')}
+                                className="w-full flex items-center gap-4 p-4 rounded-xl border-2 border-violet-200 hover:border-violet-400 hover:bg-violet-50 transition-all duration-200 group"
+                            >
+                                <div className="w-12 h-12 rounded-xl bg-violet-100 group-hover:bg-violet-200 flex items-center justify-center flex-shrink-0 transition-colors">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-6 h-6 text-violet-600">
+                                        <path d="M17 21v-2a4 4 0 0 0-3-3.87"></path>
+                                        <path d="M7 21v-2a4 4 0 0 1 3-3.87"></path>
+                                        <circle cx="12" cy="7" r="4"></circle>
+                                    </svg>
+                                </div>
+                                <div className="text-left flex-1">
+                                    <div className="font-semibold text-violet-900 text-base">Add New Student</div>
+                                    <div className="text-sm text-violet-500">Register a new student</div>
+                                </div>
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-5 h-5 text-violet-400 group-hover:text-violet-600 transition-colors">
+                                    <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+                                </svg>
+                            </button>
+
+                            {/* Add Teacher */}
+                            <button
+                                onClick={() => handleAddNewRecord('teacher')}
+                                className="w-full flex items-center gap-4 p-4 rounded-xl border-2 border-amber-200 hover:border-amber-400 hover:bg-amber-50 transition-all duration-200 group"
+                            >
+                                <div className="w-12 h-12 rounded-xl bg-amber-100 group-hover:bg-amber-200 flex items-center justify-center flex-shrink-0 transition-colors">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-6 h-6 text-amber-600">
+                                        <circle cx="12" cy="7" r="4"></circle>
+                                        <path d="M5.5 21a6.5 6.5 0 0 1 13 0"></path>
+                                    </svg>
+                                </div>
+                                <div className="text-left flex-1">
+                                    <div className="font-semibold text-violet-900 text-base">Add New Teacher</div>
+                                    <div className="text-sm text-violet-500">Register a new faculty member</div>
+                                </div>
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-5 h-5 text-amber-400 group-hover:text-amber-600 transition-colors">
+                                    <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+                                </svg>
+                            </button>
+
+                        </div>
+
+                    </div>
+                </div>
+            )}
 
             <div className="flex h-dvh min-w-0">
                 {sidebarOpen && (
@@ -70,13 +151,13 @@ const Layout = () => {
                         </div>
                     </div>
 
-                    <ul className="menu w-full grow mt-2 px-1.5 gap-1 overflow-y-auto">
+                    <ul className="menu w-full grow mt-2 px-1.5 gap-1 ">
                         <li>
                             <button
                                 onClick={() => handleNavigate("dashboard")}
                                 className={`${!sidebarOpen ? "tooltip tooltip-right" : ""} transition-all duration-200 ${isActive("dashboard")
-                                        ? "bg-violet-100 text-violet-800 border-l-2 border-amber-400 rounded-r-lg font-medium"
-                                        : "text-violet-500 hover:bg-violet-50 hover:text-violet-700"
+                                    ? "bg-violet-100 text-violet-800 border-l-2 border-amber-400 rounded-r-lg font-medium"
+                                    : "text-violet-500 hover:bg-violet-50 hover:text-violet-700"
                                     }`}
                                 data-tip="Dashboard"
                             >
@@ -94,8 +175,8 @@ const Layout = () => {
                             <button
                                 onClick={() => handleNavigate("teachers")}
                                 className={`${!sidebarOpen ? "tooltip tooltip-right" : ""} transition-all duration-200 ${isActive("teachers")
-                                        ? "bg-violet-100 text-violet-800 border-l-2 border-amber-400 rounded-r-lg font-medium"
-                                        : "text-violet-500 hover:bg-violet-50 hover:text-violet-700"
+                                    ? "bg-violet-100 text-violet-800 border-l-2 border-amber-400 rounded-r-lg font-medium"
+                                    : "text-violet-500 hover:bg-violet-50 hover:text-violet-700"
                                     }`}
                                 data-tip="Teachers"
                             >
@@ -111,8 +192,8 @@ const Layout = () => {
                             <button
                                 onClick={() => handleNavigate("students")}
                                 className={`${!sidebarOpen ? "tooltip tooltip-right" : ""} transition-all duration-200 ${isActive("students")
-                                        ? "bg-violet-100 text-violet-800 border-l-2 border-amber-400 rounded-r-lg font-medium"
-                                        : "text-violet-500 hover:bg-violet-50 hover:text-violet-700"
+                                    ? "bg-violet-100 text-violet-800 border-l-2 border-amber-400 rounded-r-lg font-medium"
+                                    : "text-violet-500 hover:bg-violet-50 hover:text-violet-700"
                                     }`}
                                 data-tip="Students"
                             >
@@ -129,8 +210,8 @@ const Layout = () => {
                             <button
                                 onClick={() => handleNavigate("classes")}
                                 className={`${!sidebarOpen ? "tooltip tooltip-right" : ""} transition-all duration-200 ${isActive("classes")
-                                        ? "bg-violet-100 text-violet-800 border-l-2 border-amber-400 rounded-r-lg font-medium"
-                                        : "text-violet-500 hover:bg-violet-50 hover:text-violet-700"
+                                    ? "bg-violet-100 text-violet-800 border-l-2 border-amber-400 rounded-r-lg font-medium"
+                                    : "text-violet-500 hover:bg-violet-50 hover:text-violet-700"
                                     }`}
                                 data-tip="Classes"
                             >
@@ -147,8 +228,8 @@ const Layout = () => {
                             <button
                                 onClick={() => handleNavigate("setting")}
                                 className={`${!sidebarOpen ? "tooltip tooltip-right" : ""} transition-all duration-200 ${isActive("setting")
-                                        ? "bg-violet-100 text-violet-800 border-l-2 border-amber-400 rounded-r-lg font-medium"
-                                        : "text-violet-500 hover:bg-violet-50 hover:text-violet-700"
+                                    ? "bg-violet-100 text-violet-800 border-l-2 border-amber-400 rounded-r-lg font-medium"
+                                    : "text-violet-500 hover:bg-violet-50 hover:text-violet-700"
                                     }`}
                                 data-tip="Settings"
                             >
@@ -201,10 +282,17 @@ const Layout = () => {
 
                         <div className="flex shrink-0 items-center gap-2 sm:gap-3">
                             <span className="hidden sm:inline-flex px-4 py-1 rounded-full bg-violet-100 text-violet-600 text-sm whitespace-nowrap">
-                                May 1, 2026
+                                {new Date().toLocaleDateString("en-US", {
+                                    day: "numeric",
+                                    month: "short",
+                                    year: "numeric",
+                                })}
                             </span>
 
-                            <button className="hidden sm:inline-flex px-4 py-2 rounded-full bg-gradient-to-r from-violet-500 to-purple-500 text-white text-sm font-medium whitespace-nowrap">
+                            <button
+                                onClick={() => setShowNewRecordModal(true)}
+                                className="hidden sm:inline-flex px-4 py-2 rounded-full bg-gradient-to-r from-violet-500 to-purple-500 text-white text-sm font-medium whitespace-nowrap hover:shadow-lg hover:scale-105 transition-all duration-200"
+                            >
                                 + New Record
                             </button>
 
