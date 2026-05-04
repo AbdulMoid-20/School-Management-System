@@ -43,7 +43,7 @@ const StudentList = () => {
                 {/* RIGHT SIDE BUTTON */}
                 <button
                     onClick={() => navigate("/addstudent")}
-                    className="px-4 py-2 rounded-full bg-gradient-to-r from-violet-500 to-purple-500 text-white text-sm font-medium shadow-md hover:opacity-90 transition"
+                    className="px-4 py-2 rounded-full hover:scale-105 transition-all bg-gradient-to-r from-violet-500 to-purple-500 text-white text-sm font-medium shadow-md hover:opacity-90 transition"
                 >
                    + Add New Student
                 </button>

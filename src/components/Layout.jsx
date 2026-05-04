@@ -33,9 +33,9 @@ const Layout = () => {
     const handleAddNewRecord = (type) => {
         setShowNewRecordModal(false);
         if (type === 'student') {
-            navigate('/students/add');
+            navigate('/addstudent');
         } else if (type === 'teacher') {
-            navigate('/teachers/add');
+            navigate('/addteacher');
         }
     };
 
@@ -291,7 +291,7 @@ const Layout = () => {
 
                             <button
                                 onClick={() => setShowNewRecordModal(true)}
-                                className="hidden sm:inline-flex px-4 py-2 rounded-full bg-gradient-to-r from-violet-500 to-purple-500 text-white text-sm font-medium whitespace-nowrap hover:shadow-lg hover:scale-105 transition-all duration-200"
+                                className="hidden sm:inline-flex  transition-all px-4 py-2 rounded-full bg-gradient-to-r from-violet-500 to-purple-500 text-white text-sm font-medium whitespace-nowrap hover:shadow-lg hover:scale-105 transition-all duration-200"
                             >
                                 + New Record
                             </button>
